@@ -1,0 +1,14 @@
+variaveis,
+if, else, elif,
+for, while, do while,
+try except,
+array, dicionário, tupla, lista,
+funções,
+classes
+
+print('se vc entende isso vc não tem namorada')
+sua_chance_de_namorar = 0
+if(sua_chance_de_namorar == 0):
+    print('eu disse que eu tava certo')
+else:
+    print('de qualquer jeito vc sabe que é verdade')

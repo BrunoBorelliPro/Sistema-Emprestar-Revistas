@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "name": "SQLite",
+            "driver": "SQLite",
+            "database": "${workspaceFolder:Sistema-emprestar-revistas-backend}/src/db/db.db",
+            "connectionTimeout": 15
+        }
+    ]
+}

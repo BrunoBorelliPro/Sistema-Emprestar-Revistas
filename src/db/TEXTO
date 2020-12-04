@@ -1,0 +1,14 @@
+CREATE TABLE caixa(
+    cor text
+);
+CREATE TABLE amigo(
+    nome text,
+    nome_mae text,
+    telefone text,
+    local_conhecido text
+);
+CREATE TABLE revista(
+    titulo text,
+    tema text,
+    voluma int
+);

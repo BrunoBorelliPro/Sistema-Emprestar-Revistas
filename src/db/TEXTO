@@ -1,14 +1,17 @@
 CREATE TABLE caixa(
+    id_caixa INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     cor text
 );
 CREATE TABLE amigo(
+    id_amigo INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     nome text,
     nome_mae text,
     telefone text,
     local_conhecido text
 );
 CREATE TABLE revista(
+    id_revista INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     titulo text,
     tema text,
-    voluma int
+    volume int
 );

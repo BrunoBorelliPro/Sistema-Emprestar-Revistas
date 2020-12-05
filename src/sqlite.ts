@@ -7,6 +7,11 @@ interface Amigo{
   telefone:string,
   local_conhecido:string
 }
+interface Revista{
+  titulo:string,
+  tema:string,
+  voluma:number
+}
 
 module.exports = {
   
@@ -44,7 +49,36 @@ module.exports = {
   getAmigo: function(callback:any){
     db.all("SELECT * FROM amigo", function(err:any, res:any){
       callback(res);
+    }); 
+  },
+  deleteAmigo: function(nome:string, callback:any){
+    db.run("DELETE FROM amigo WHERE nome = ($nome)", {
+      $nome: nome
+    }, function(){
+      callback();
     });
-},
+  },
+  addRevista: function(revista:Revista, callback:any){
+    db.run("INSERT INTO revista VALUES ($titulo, $tema, $voluma)",{
+      $titulo: revista.titulo,
+      $tema: revista.tema,
+      $voluma: revista.voluma
+    }, function(){
+      callback()
+    })
+  },
+  getRevista: function(callback:any){
+    db.all("SELECT * FROM revista", function(err:any, res:any){
+      callback(res)
+    }
+    )
+  },
+  deleteRevista: function(titulo:string, callback:any){
+    db.run("DELETE FROM revista WHERE titulo = ($titulo)", {
+      $titulo: titulo
+    }, function(){
+      callback();
+    });
+  },
 
 }

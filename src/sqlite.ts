@@ -10,7 +10,8 @@ interface Amigo{
 interface Revista{
   titulo:string,
   tema:string,
-  voluma:number
+  volume:number,
+  id_caixa_fk:number
 }
 
 module.exports = {
@@ -20,15 +21,15 @@ module.exports = {
         callback(res);
       });
   },
-  addCor: function(corName:string, callback:any){
+  addCaixa: function(corName:string, callback:any){
 
-      db.run("INSERT INTO caixa VALUES ($cor)", {
+      db.run(`INSERT INTO caixa VALUES (NULL,$cor)`, {
         $cor: corName
       }, function(){
         callback();
       });
     },
-  deleteCor: function(corName:string, callback:any){
+  deleteCaixa: function(corName:string, callback:any){
     db.run("DELETE FROM caixa WHERE cor = ($cor)", {
       $cor: corName
     }, function(){
@@ -37,7 +38,7 @@ module.exports = {
   },
 
   addAmigo: function(amigo:Amigo, callback:any){
-    db.run("INSERT INTO amigo VALUES ($nome, $nome_mae, $telefone, $local_conhecido)", {
+    db.run("INSERT INTO amigo VALUES (NULL,$nome, $nome_mae, $telefone, $local_conhecido)", {
       $nome : amigo.nome,
       $nome_mae : amigo.nome_mae,
       $telefone : amigo.telefone,
@@ -59,10 +60,11 @@ module.exports = {
     });
   },
   addRevista: function(revista:Revista, callback:any){
-    db.run("INSERT INTO revista VALUES ($titulo, $tema, $voluma)",{
+    db.run("INSERT INTO revista VALUES (NULL,$titulo, $tema, $volume, $id_caixa_fk)",{
       $titulo: revista.titulo,
       $tema: revista.tema,
-      $voluma: revista.voluma
+      $volume: revista.volume,
+      $id_caixa_fk: revista.id_caixa_fk
     }, function(){
       callback()
     })
@@ -73,12 +75,34 @@ module.exports = {
     }
     )
   },
-  deleteRevista: function(titulo:string, callback:any){
-    db.run("DELETE FROM revista WHERE titulo = ($titulo)", {
-      $titulo: titulo
+  deleteRevista: function(id_revista:string, callback:any){
+    db.run("DELETE FROM revista WHERE id_revista = ($id_revista)", {
+      $id_revista: id_revista
     }, function(){
       callback();
     });
   },
-
+  emprestaRevista: function(id_revista_fk:number, id_amigo_fk:number, callback:any){
+    db.run("INSERT INTO Revista_emprestada VALUES ($id_revista_fk,$id_amigo_fk)",{
+      $id_revista_fk:id_revista_fk,
+      $id_amigo_fk:id_amigo_fk
+    },function(){
+      callback()
+    })
+  },
+  getEmprestimos: function(id_amigo_fk:number, callback:any){
+    db.all("SELECT * FROM Revista_emprestada WHERE id_amigo_fk = $id_amigo_fk",{
+      $id_amigo_fk: id_amigo_fk
+    },function(err:any, res:any){
+      callback(res,err)
+    })
+  },
+  devolucao: function(id_revista_fk:number, id_amigo_fk:number,callback:any){
+    db.run("DELETE FROM Revista_emprestada WHERE id_revista_fk = $id_revista_fk AND id_amigo_fk = $id_amigo_fk",{
+      $id_amigo_fk: id_amigo_fk,
+      $id_revista_fk: id_revista_fk
+    },function(){
+      callback()
+    })
+  }
 }

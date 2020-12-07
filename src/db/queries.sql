@@ -1,7 +1,4 @@
 -- SQLite
-drop table amigo;
-drop table revista;
-drop table caixa;
 
 CREATE TABLE caixa(
     id_caixa INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -23,8 +20,12 @@ CREATE TABLE revista(
     FOREIGN KEY(id_caixa_fk) REFERENCES caixa(id_caixa)
 );
 CREATE TABLE Revista_emprestada(
-    id_revista_fk INTEGER,
+    id_revista_fk INTEGER PRIMARY KEY,
     id_amigo_fk INTEGER,
     FOREIGN KEY(id_amigo_fk) REFERENCES amigo(id_amigo_fk),
     FOREIGN KEY(id_revista_fk) REFERENCES revista(id_revista)
-)
+);
+
+SELECT * FROM CAIXA;
+DROP TABLE Revista_emprestada;
+INSERT INTO caixa VALUES (NULL,"vermelho");

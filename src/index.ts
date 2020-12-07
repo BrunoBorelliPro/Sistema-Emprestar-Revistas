@@ -14,13 +14,13 @@ app.get("/caixa", (request, response) => {
 
 app.post('/caixa',(request, response)=>{
     const cor = request.body.cor
-    sqlite.addCor(cor,()=>console.log("Cor adicionada!"))
+    sqlite.addCaixa(cor,()=>console.log("Cor adicionada!"))
     response.json(cor)
 })
 
 app.delete('/caixa',(request, response)=>{
     const cor = request.body.cor
-    sqlite.deleteCor(cor,()=>console.log("Cor deletada!"))
+    sqlite.deleteCaixa(cor,()=>console.log("Cor deletada!"))
     response.json(cor)
 })
 
@@ -63,6 +63,35 @@ app.delete("/revista",(request, response)=>{
     console.log("Revista deletada!")
     response.json(titulo)
   })
+})
+
+app.post("/emprestimo",(request, response)=>{
+  const id_revista = request.body.id_revista
+  const id_amigo = request.body.id_amigo
+  sqlite.emprestaRevista(id_revista, id_amigo,()=>{
+    console.log("Revista emprestada com sucesso!")
+    response.json({
+      "id_revista":id_revista,
+      "id_amigo":id_amigo
+    })
+  })
+})
+app.get("/emprestimo",(request, response)=>{
+  const id_amigo_fk = request.body.id_amigo
+  sqlite.getEmprestimos(id_amigo_fk,(res,err)=>{
+    response.json(res)
+  })
+})
+app.delete("/emprestimo",(request, response)=>{
+  const id_amigo_fk = request.body.id_amigo
+  const id_revista_fk = request.body.id_revista
+  sqlite.devolucao(id_revista_fk,id_amigo_fk,()=>{
+    response.json({
+      "id_amigo_fk":id_amigo_fk,
+      "id_revista_fk":id_revista_fk
+    })
+  })
+  console.log("Devolução concluida!")
 })
 app.listen(3000, () => {
 });
